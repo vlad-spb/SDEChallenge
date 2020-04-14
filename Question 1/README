@@ -1,0 +1,18 @@
+
+
+Since no specific scenarios of how this interface/data structure will be used have been provided, the following assumptions have been made:
+
+ - the most common use of Moving Average is "smoothing" filters for "time series" signal data, therefore:
+ 	- the data set size is sometimes difficult to estimate
+ 	- insertion (addition) performance is more important (could be real-time data) than random access performance
+ 	- all moving averages calculated every time when a source data element is added needs  to be stored - as this data will be used (for plotting, for example)
+
+ - for the above mentioned reasons a LinkedList has been chosen as an underlying structure for both the source data and the moving average data. In case my assumption is not correct it can be easily replaced with ArrayList - by uncommenting the corresponding line in MovingAvgDataListImpl() constructor. 
+
+ - a Queue was chosen for the "sliding window", which is used to calculate the moving average. The reason was that the algorithm in essense removes an element from the its head and adds one to the tail at every step. (Only the previous sum, the "oldest" and the "newest" window elements are used to calculate the moving average at every step.)  The underlying implementation is again a LinkedList. Yes, this results in duplicate data, but assuming relatively narrow sliding window the added space complexity is not as significant as the development effort reduced by using a readily available data structure
+
+ - Not sure if I was expected to create a data structure from scratch. I could, it would be again some sort of a linked list with another array of pointers to elements within the "sliding window". But as I spent so many years in consulting business one of my goals was to minimize development cost for the client by using readily available solutions ))
+
+ - a decision has been made not to replicate all methods of List interface (of the source data) to MovingAvgDataList interface, it has been deemed not important for the purpose of this exercise. Instead, there is a getData() and getMovingAverageData() that return List<Double> interfaces that can be used to iterate through the source and the moving average data respectively. Iterating from the first element to the last is considered to be the most common use scenario (plotting, for example)
+
+
